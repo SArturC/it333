@@ -1,0 +1,56 @@
+Conversor Boost source ex2.cir
+*
+* Implementação do conversor boost
+* Nível 1: transistor como chave e componentes ideias
+* Erickson, seção 2.3
+*
+* *****************************************
+
+* DESCRIÇÃO DO CIRCUITO
+* variáveis do circuito
+.param vg   = 1.0e2    ; fonte de entrada
+.param fsw  = 1.0e4    ; frequência do sinal da fonte
+.param per  = {1/fsw}  ; período do sinal da fonte
+.param dut  = 0.5      ; ciclo de trabalho
+
+* definição dos componentes
+* pwm source
+Vpwm  pwm      GND PULSE(0 1 0 1e-9 1e-9 {dut*per} {per})
+
+* entrada
+vg1 nl1  GND  DC  {vg}
+l1  nl1  nl2  1.0e-3
+
+* transistor
+s1  nl2  GND   pwm       GND SW
+D1  nl2  vout  Dideal
+
+* circuito de saída
+c1  vout  GND   4.7e-5
+rl  vout  GND   2.0e2
+
+* definição dos modelos
+.model SW     SW( Ron=1.0e-9   Roff=1.0e9  Vt=0.5 )
+.model Dideal D( RS=1e-6 IS=1.0e-9 N=1
++                TT=0 CJO=0 )
+
+* COMANDOS DA SIMULAÇÃO
+.options savecurrents TEMP = 27
+
+* PARÂMETROS DA SIMULAÇÃO
+.IC v(vout) = 2.158e2 ; tensão inicial do capacitor
+.tran {per/100} {5*per} uic
+
+.control ;
+run
+plot vout
+plot @l1[i]
+
+* SALVAMENTO DOS DADOS
+set wr_singlescale
+set wr_vecnames
+set filetype=ascii
+wrdata /home/artur-cesar/Documentos/'projeto mestrado'/codigos/ngspice/it333/l1/ex2.csv v(vout) @l1[i]
+.endc
+.end
+

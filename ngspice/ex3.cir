@@ -1,0 +1,61 @@
+Conversor Cuk source ex3.cir
+*
+* Implementação do conversor Cuk
+* Nível 1: chave 3 posições e componentes ideias
+* Erickson, seção 2.4
+*
+* *****************************************
+
+* DESCRIÇÃO DO CIRCUITO
+* variáveis do circuito
+.param vg   = 48       ; fonte de entrada
+.param fsw  = 6.4e4    ; frequência do sinal da fonte
+.param per  = {1/fsw}  ; período do sinal da fonte
+.param dut  = 0.4286   ; ciclo de trabalho
+
+* definição dos componentes
+* pwm source
+Vpwm  pwm      GND PULSE(0 1 0 1e-9 1e-9 {dut*per} {per})
+
+* entrada
+vg1 nl1  GND  DC  {vg}
+l1  nl1  nl2  1.0e-2     IC=3
+
+* transistor
+s1  nl2  GND   pwm       GND SW
+c1  nl2  nd1   1.0e-4    IC=84
+d1  nd1  GND   Dideal
+
+* circuito de saída
+l2  nd1   vout  1.0e-3   IC=-4
+c2  vout  GND   1.256e-6   IC=-36
+rl  vout  GND   9.0e0
+
+* definição dos modelos
+.model SW     SW( Ron=1.0e-9   Roff=1.0e9  Vt=0.5 )
+.model Dideal D( RS=1e-6 IS=1.0e-3 N=1
++                TT=0 CJO=0 )
+
+* COMANDOS DA SIMULAÇÃO
+.options savecurrents TEMP = 27
+
+* PARÂMETROS DA SIMULAÇÃO
+.tran {per/100} {5000*per} {4994*per} uic
+
+.control ;
+run
+plot vout
+plot @l1[i]
+plot @l2[i]
+plot v(nl2,nd1)
+plot @d1[id]
+plot @rl[i]
+
+* SALVAMENTO DOS DADOS
+set wr_singlescale
+set wr_vecnames
+set filetype=ascii
+wrdata /home/artur-cesar/Documentos/'projeto mestrado'/codigos/ngspice/it333/l1/ex3.csv v(vout) @l1[i] @l2[i] v(nl2,nd1) @d1[id] @rl[i]
+.endc
+.end
+

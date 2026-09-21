@@ -1,0 +1,56 @@
+Conversor Buck source ex1.cir
+*
+* Implementação do conversor buck
+* Nível 1: componentes ideais, MOSFET implementado por chave
+* Erickson, seção 2.2
+*
+* *****************************************
+
+* DESCRIÇÃO DO CIRCUITO
+* variáveis do circuito
+.param vg   = 15       ; fonte de entrada
+.param fsw  = 2.0e5    ; frequência do sinal da fonte
+.param per  = {1/fsw}  ; período do sinal da fonte
+.param dut  = 0.333    ; ciclo de trabalho
+
+* definição dos componentes
+* pwm source
+Vpwm  pwm      GND PULSE(0 1 0 1e-9 1e-9 {dut*per} {per})
+
+* entrada
+vg1 nd1  GND  DC  {vg}
+
+* transistor
+s1  nd1  ns1  pwm  GND SW
+D1 GND ns1 Dideal
+
+* circuito de saída
+l1  ns1   vout  4.1666667e-6  IC=0.0e0
+c1  vout  GND   2.50e-6
+rl  vout  GND   2.5e0
+
+* definição dos modelos
+.model SW     SW( Ron=1.0e-12   Roff=1.0e12  Vt=0.5 )
+.model Dideal D( RS=1e-12 IS=1.0e-3 N=1
++                TT=0 CJO=0 )
+
+* COMANDOS DA SIMULAÇÃO
+.options savecurrents TEMP = 27
+
+* PARÂMETROS DA SIMULAÇÃO
+.IC v(vout) = 5.0e0 ; tensão inicial do capacitor
+.tran {per/100} {5*per} uic
+
+.control ;
+run
+plot vout
+plot @l1[i]
+
+* SALVAMENTO DOS DADOS
+set wr_singlescale
+set wr_vecnames
+set filetype=ascii
+wrdata /home/artur-cesar/Documentos/'projeto mestrado'/codigos/ngspice/it333/l1/ex1.csv v(vout) @l1[i]
+.endc
+.end
+
