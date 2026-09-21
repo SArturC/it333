@@ -55,7 +55,7 @@ plot @rl[i]
 set wr_singlescale
 set wr_vecnames
 set filetype=ascii
-wrdata /home/artur-cesar/Documentos/'projeto mestrado'/codigos/ngspice/it333/l1/ex3.csv v(vout) @l1[i] @l2[i] v(nl2,nd1) @d1[id] @rl[i]
+wrdata ex3.csv v(vout) @l1[i] @l2[i] v(nl2,nd1) @d1[id] @rl[i]
 .endc
 .end
 
