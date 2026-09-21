@@ -50,7 +50,7 @@ plot @l1[i]
 set wr_singlescale
 set wr_vecnames
 set filetype=ascii
-wrdata v(vout) @l1[i]
+wrdata ex2.csv v(vout) @l1[i]
 .endc
 .end
 
