@@ -51,6 +51,11 @@ plot vout
 plot @l1[i]
 plot -v(ns1)
 
+* SALVAMENTO DOS DADOS
+set wr_singlescale
+set wr_vecnames
+set filetype=ascii
+wrdata ex4.csv v(vout) @l1[i] v(ns1)
 .endc
 .end
 
