@@ -46,6 +46,11 @@ run
 plot vout
 plot @l1[i]
 
+* SALVAMENTO DOS DADOS
+set wr_singlescale
+set wr_vecnames
+set filetype=ascii
+wrdata v(vout) @l1[i]
 .endc
 .end
 
