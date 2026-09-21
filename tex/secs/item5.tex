@@ -1,0 +1,123 @@
+\section*{Item 5}\label{it:5}
+
+\textbf{Enunciado}: elabore um código em .m no Matlab para projetar um conversor Boost as entradas do código são devem ser:
+\begin{itemize}
+	\item Tensão de entrada;
+	\item Tensão de saída;
+	\item Frequência de comutação;
+	\item Potência na saída;
+	\item Ripple de corrente no indutor e de tensão de saída em \%.
+\end{itemize}
+
+O código deve verificar se o conversor opera no MCC e MCD, caso opere no MCD deve-se retornar o valor da indutância projetada e o ciclo de trabalho. Caso opere no MCC deve-se retornar o valor da indutância projetada, capacitância de saída projetada, ciclo de trabalho no ponto de operação, corrente média no indutor, correntes máxima e mínima no indutor.
+
+\medskip
+\textbf{Resolução}: o código desenvolvido para resolução deste exercícios é mostrado no Algoritmo~\ref{lst:item5}.
+	
+\begin{lstlisting}[caption={Função que realiza o projeto do conversor Boost.},label={lst:item5}]
+    function projeto_boost(Vg,Vo,fs,Po,rip_i,rip_v)
+    %--------------------------------------------
+    % Projeto de conversor Boost
+    %
+    % Entradas:
+    %   Vg    - tensao de entrada (V)
+    %   Vo    - tensao de saida (V)
+    %   fs    - frequencia de chaveamento (Hz)
+    %   Po    - potencia de saida (W)
+    %   rip_i - ripple de corrente (% da corrente media do indutor)
+    %   rip_v - ripple de tensao (% da tensao de saida)
+    %--------------------------------------------
+    
+    Ts = 1/fs;
+    
+    %=========================
+    % Ponto de operacao em CCM
+    %=========================
+    
+    D       = 1 - Vg/Vo;
+    Dp      = 1-D;
+    R       = Vo^2/Po;
+    IL      = Vg/(Dp^2*R);
+    Delta_i = (rip_i/100)*IL;
+    L       = Vg*D*Ts/(2*Delta_i);
+    K       = 2*L/(R*Ts);
+    Kcrit   = D*Dp^2;
+    
+    fprintf('\n');
+    fprintf('-------------------------------\n');
+    fprintf('Projeto do Conversor Boost\n');
+    fprintf('-------------------------------\n');
+    
+    fprintf('D = %.4f\n',D);
+    fprintf('K = %.4f\n',K);
+    fprintf('Kcrit = %.4f\n',Kcrit);
+    
+    %================================
+    % Verificacao do modo de conducao
+    %================================
+    
+    if K >= Kcrit
+    fprintf('\nModo de operacao: CCM\n\n');
+    
+    Delta_v = rip_v/100*Vo;
+    C       = Delta_i*Ts/(8*Delta_v);
+    ILmax   = IL + Delta_i/2;
+    ILmin   = IL - Delta_i/2;
+    
+    fprintf('Indutancia      = %.4e H\n',L);
+    fprintf('Capacitancia    = %.4e F\n',C);
+    fprintf('Duty-cycle      = %.4f\n',D);
+    fprintf('Corrente media  = %.4f A\n',IL);
+    fprintf('Corrente maxima = %.4f A\n',ILmax);
+    fprintf('Corrente minima = %.4f A\n',ILmin);
+    else
+    fprintf('\nModo de operacao: DCM\n\n');
+    
+    M = Vo/Vg;
+    K = D^2/(M*(M-1));
+    L = K*R*Ts/2;
+    
+    fprintf('Indutancia = %.4e H\n',L);
+    fprintf('Duty-cycle = %.4f\n',D);
+    
+    end
+    end
+\end{lstlisting}
+
+Como exemplo, utilizando valores semelhantes aos do item~\ref{it:2}, obteve-se os seguintes
+
+\begin{lstlisting}[caption={Exemplo 1 - CCM.},label={lst:item5a}]
+	>> projeto_boost(100,200,10e3,200,50,10)
+	
+	-------------------------------
+	Projeto do Conversor Boost
+	-------------------------------
+	D = 0.5000
+	K = 0.2500
+	Kcrit = 0.1250
+	
+	Modo de operacao: CCM
+	
+	Indutancia      = 2.5000e-03 H
+	Capacitancia    = 6.2500e-07 F
+	Duty-cycle      = 0.5000
+	Corrente media  = 2.0000 A
+	Corrente maxima = 2.5000 A
+	Corrente minima = 1.5000 A
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Exemplo 2 - DCM.},label={lst:item5b}]
+	>> projeto_boost(100,200,10e3,200,110,1)
+	
+	-------------------------------
+	Projeto do Conversor Boost
+	-------------------------------
+	D = 0.5000
+	K = 0.1136
+	Kcrit = 0.1250
+	
+	Modo de operacao: DCM
+	
+	Indutancia = 1.2500e-03 H
+	Duty-cycle = 0.5000
+\end{lstlisting}

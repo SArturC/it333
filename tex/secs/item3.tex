@@ -1,0 +1,74 @@
+\section*{Item 3}\label{it:3}
+
+\textbf{Enunciado}: para um conversor Cuk, considere os seguintes valores: $E = 48$ V; $V_o = 36$ V; $R_o = 9~\Omega$; $f = 64$ kHz; $L_1 = 10$ mH; $L2 = 1$ mH; $C_o = 100~\mu$F; rendimento de 100\%.
+
+\medskip
+\textbf{a)} Determine se o conversor está operando no CCM ou no DCM.
+
+\medskip
+\textbf{Resolução}: pode-se verificar o modo de operação do conversor por meio do limiar inferior da corrente~\cite{aula3.3}
+\begin{equation*}
+	\begin{aligned}
+		I_{o,min} &= \frac{ET_s}{8L_2} \\
+		&= \frac{48(1/64\times 10^3)}{8(1 \times 10^{-3})} \approx 0{,}0938~\mathrm{A}.
+	\end{aligned}
+\end{equation*}
+
+Comparando-se $I_{o,min}$ com $I_{o} = V_o/R_o = 36/9 = 4$ A, conclui-se que o conversor está operando em CCM. Essa condição pode ser verificada por meio de simulação da corrente do diodo, como mostrado na Figura~\ref{fig:ex3_1}.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/ex3_1.pgf}
+	\caption{Corrente do Diodo do circuito Cuk.}
+	\label{fig:ex3_1}
+\end{figure}
+
+\medskip
+\textbf{b)} Calcule o ciclo de trabalho no ponto de operação.
+
+\medskip
+\textbf{Resolução}: como o conversor está operando no CCM, pode-se determinar o ciclo de trabalho por~\cite{Eri:20}
+\begin{equation*}
+	D = \frac{V_o}{V_o + E} = \frac{36}{36 + 48} \approx 0{,}4286
+\end{equation*}
+
+\medskip
+\textbf{c)} Determine o valor do capacitor intermediário ($C_1$), de modo que a ondulação de tensão sobre ele seja de $0{,}5$ V (pico a pico).
+
+\medskip
+\textbf{Resolução}: em conversores que possuem filtro de dois polos (LC) no circuito de saída, o \textit{ripple} da tensão de saída pode ser determinado por~\cite{Eri:20}
+\begin{equation}\label{eq:ex3_1}
+	\Delta v_{pico} = 2\Delta v = \frac{\Delta i_{L2}T_s}{4C_o},
+\end{equation}
+em que,
+\begin{equation*}
+	\Delta i_{L2} = \frac{EDT_s}{2L_1} \approx 16{,}1~\mathrm{mA}.
+\end{equation*}
+
+Resolvendo~\eqref{eq:ex3_1}, tem-se que $C_o \approx 1{,}256~\mu$F. Os valores de $\Delta i_{L2}$ e $\Delta v_{pico}$ podem ser verificados na simulação da Figura~\ref{fig:ex3_2}.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/ex3_2.pgf}
+	\caption{(a) tensão de saída e (b) corrente do indutor $L_2$ do circuito Cuk.}
+	\label{fig:ex3_2}
+\end{figure}
+
+\medskip
+\textbf{d)} Determine a corrente média de entrada e a ondulação da corrente de saída (pico-a-pico).
+
+\medskip
+\textbf{Resolução}: a corrente média de entrada pode ser determinada por
+\begin{equation*}
+	I_{L1} = \frac{E}{R_o}\big(\frac{D}{1 - D}\big)^2 = 3~\mathrm{A}.
+\end{equation*}
+Enquanto que o \textit{ripple} da corrente de saída pode ser calculado por
+\begin{equation*}
+	\Delta i_{o,pico} = \frac{\Delta v_{pico}}{R_o} = 55{,}6~\mathrm{mA}.
+\end{equation*}
+
+Estes valores podem ser verificados por meio de simulação como mostrado na Figura~\ref{fig:ex3_3}.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/ex3_3.pgf}
+	\caption{(a) corrente de entrada e (b) corrente de saída do circuito Cuk.}
+	\label{fig:ex3_3}
+\end{figure}

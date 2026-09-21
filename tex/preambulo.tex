@@ -1,0 +1,94 @@
+\documentclass[letterpaper, 10 pt, conference, compsocconf]{IEEEtran} 
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{epsfig,fancybox,psfrag}
+\usepackage{lipsum}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{subfigure}
+\usepackage{comment}
+\usepackage[font=small,labelfont=bf,tableposition=top]{caption}
+\usepackage{blindtext}
+\usepackage{cuted}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{stfloats}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{balance}
+\pgfplotsset{compat=1.18}
+\providecommand{\mathdefault}[1]{#1}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,    % changed
+                calc, chains,   % new
+                positioning,    % new
+                quotes          % new
+                }
+
+\tikzstyle{input}   = [coordinate]
+\tikzstyle{input1}  = [coordinate]
+\tikzstyle{output}  = [coordinate]
+
+\usetikzlibrary{calc,patterns,angles,quotes}
+\usetikzlibrary{arrows,positioning,decorations}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.fractals}
+\usetikzlibrary{decorations.footprints}
+\usetikzlibrary{arrows, automata, shapes.multipart, chains, positioning, fit, graphs, spy, shapes, backgrounds, patterns}
+\usepackage{schemabloc}
+\usetikzlibrary{intersections}
+\usetikzlibrary{calc}
+\usepackage{marvosym}
+\usepackage[marvosym]{tikzsymbols}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{rem}{Remark}
+\newtheorem{assu}{Assumption}
+\newenvironment{notation}
+{\noindent\textbf{Notation.}\ }{}
+\renewcommand\IEEEkeywordsname{Keywords}
+\captionsetup[figure]{labelfont={normalfont},name={Fig.},labelsep=period}
+\pagestyle{empty}
+
+\DeclareMathOperator{\real}{\mathbb{R}}
+\DeclareMathOperator{\simm}{\mathbb{S}}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\He}{He}
+
+\IEEEoverridecommandlockouts
+
+\usepackage{enumitem}   
+\usepackage{flushend}
+\usepackage{newtxmath}
+
+\tikzset{cross/.style={cross out, draw=black, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt},
+cross/.default={0.15cm}}
+
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=8pt,
+    xleftmargin=15pt,
+    frame=single,
+    breaklines=true,
+    columns=fullflexible
+}

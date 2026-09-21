@@ -1,0 +1,132 @@
+\section*{Item 4}\label{it:4}
+
+\textbf{Enunciado}: Considerando o circuito apresentado na Lista de Exercícios.  O  transistor  é comandado  por  um  pulso  quadrado  com  largura  $50$\%,  em  $25$ kHz.  Deseja-se obter $10$ V na saída, com um \textit{ripple} de tensão de $1$\%. A corrente nominal de saída é de $5$ A. Os pulsos de comando do transistor devem variar entre $-15$ e $+15$ V, com tempos de subida e de descida de $100$ ns.
+
+\medskip
+\textbf{a)} Calcule e use na simulação a indutância para operar no limiar entre o MCC e o MCD, com uma corrente de saída de $1$ A.
+
+\medskip
+\textbf{Resolução}: o valor da indutância para operar no limiar pode ser obtida por
+\begin{equation*}
+	L_{min} = \frac{R_{o,max}T_s}{2}(1 - D),
+\end{equation*}
+em que $R_{o,max} = V_o/I_{o,min}$. Substituindo-se os valores fornecidos no enunciado, tem-se $L_{min} = 100~\mu$H.
+
+\medskip
+\textbf{b)} Calcule o capacitor de filtro para o \textit{ripple} de tensão indicado.
+
+\medskip
+\textbf{Resolução}: o valor do capacitor de filtro para que a tensão de saída apresente um \textit{ripple} de $1$\%, ou seja $\Delta v_{c,pico} = 0{,}01V_o = 0{,}1$ V, pode ser obtido por
+\begin{equation*}
+	C = \Delta i_L\frac{T_s}{4\Delta v_{c,pico}},
+\end{equation*}
+em que
+\begin{equation*}
+	\Delta i_L = \frac{E - V_o}{2L_{min}}DT_s.
+\end{equation*}
+
+Substituindo-se os valores fornecidos no enunciado, tem-se $C = 100~\mu$F e $\Delta i_L = 1$ A.
+
+\medskip
+\textbf{c)} Simule o circuito, pelo menos por $6$ ms, partindo de condições iniciais nulas, tanto no indutor  quanto no capacitor, e verifique se os valores teóricos correspondem aos simulados. Explique eventuais discrepâncias. Deve-se mostrar o resultado correspondentes as cargas com correntes de $5$ e $1$ A (valores médios).
+
+\medskip
+\textbf{Resolução}: a Figura~\ref{fig:ex4_1} mostra o resultado da simulação para a carga com corrente de $5$ A.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/ex4_1.pgf}
+	\caption{(a) tensão de saída, (b) corrente do indutor e (c) tensão no diodo do circuito Buck, com diodo não ideal e carga de $5$ A.}
+	\label{fig:ex4_1}
+\end{figure}
+
+Comparando-se os valores da simulação com os esperados $V_o = 10$ V, $\Delta v_{c,pico} = 0{,}1$ V, $I_L = V_o/R_o = 10/2 = 5$ A e $\Delta i_L = 1$, percebe-se que há diferenças, que podem ser explicadas pela não idealidade do diodo. Enquanto este componente está conduzindo, há uma queda de tensão que não é levada em consideração nos cálculos das tensões e correntes do circuito Buck, como mostrado na Figura~\ref{fig:ex4_1} (c). Reduzindo a queda de tensão direta do diodo para próximo de zero, os valores de interesse do conversor em simulação convergem para os teorizados, como demonstrado na Figura~\ref{fig:ex4_2}.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/ex4_2.pgf}
+	\caption{(a) tensão de saída, (b) corrente do indutor e (c) tensão no diodo do circuito Buck, com diodo ideal e carga de $5$ A.}
+	\label{fig:ex4_2}
+\end{figure}
+
+A Figura~\ref{fig:ex4_3} mostra os resultados de simulação obtidos para a carga com corrente de $1$ A.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/ex4_3.pgf}
+	\caption{(a) tensão de saída, (b) corrente do indutor e (c) tensão no diodo do circuito Buck, com diodo ideal e carga de $1$ A.}
+	\label{fig:ex4_3}
+\end{figure}
+
+Observando que a corrente no indutor se anula ao final do período $T_s$, é esperado que o conversor esteja operando no limiar entre o CCM e o DCM. Segundo~\cite{Eri:20}, a carga máxima (corrente mínima ou resistência máxima) pode ser calculada por
+\begin{equation*}
+	R_{o,max} = \frac{2L_{min}}{(1-D)T_s} = 10~\Omega.
+\end{equation*}
+Este é justamente o valor da carga utilizada na simulação, o que corrobora com o resultado apresentado.
+
+\medskip
+\textbf{d)} Calcule o valor da tensão de saída, caso se opere no MCD com corrente média de saída de $0{,}5$ A.
+
+\medskip
+\textbf{Resolução}: a característica do conversor Buck operando em MCD é
+\begin{equation*}
+	M(D,K) = \frac{2}{1 + \sqrt{1 + 4K/D^2}},
+\end{equation*}
+em que
+\begin{equation*}
+	K = \frac{2L}{RT_s}.
+\end{equation*}
+
+Como a resistência de carga pode ser escrita como
+\begin{equation*}
+	R = \frac{V_o}{I_o},
+\end{equation*}
+segue que
+\begin{equation*}
+	K = \frac{2LI_o}{V_oT_s}.
+\end{equation*}
+
+Substituindo-se esta expressão na característica do conversor, obtém-se
+\begin{equation*}
+	\frac{V_o}{E}
+	=
+	\frac{2}
+	{1+\sqrt{1+\dfrac{8LI_o}{D^2T_sV_o}}}.
+\end{equation*}
+
+Multiplicando-se ambos os lados da equação por $E$ e rearranjando os termos, resulta
+\begin{equation*}
+	V_o\sqrt{1+\frac{8LI_o}{D^2T_sV_o}}
+	=
+	2E-V_o.
+\end{equation*}
+
+Elevando-se ambos os lados ao quadrado, obtém-se
+\begin{equation*}
+	V_o^2
+	\left(
+	1+\frac{8LI_o}{D^2T_sV_o}
+	\right)
+	=
+	(2E-V_o)^2.
+\end{equation*}
+
+Expandindo ambos os lados e cancelando os termos em $V_o^2$, segue que
+\begin{equation*}
+	\frac{8LI_o}{D^2T_s}V_o
+	=
+	4E^2-4EV_o.
+\end{equation*}
+
+Isolando-se a tensão de saída, obtém-se
+\begin{equation*}
+	V_o
+	=
+	\frac{4E^2}
+	{4E+\dfrac{8LI_o}{D^2T_s}}
+	=
+	\frac{E}
+	{1+\dfrac{2LI_o}{ED^2T_s}}.
+\end{equation*}
+
+Substituindo-se os valores $E=20$ V, $D=0{,}5$, $L=100~\mu$H, $T_s=40~\mu$s e $I_o=0{,}5$ A, obtém-se
+\begin{equation*}
+	V_o \approx 13{,}33~\text{V}.
+\end{equation*}

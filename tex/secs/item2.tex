@@ -1,0 +1,76 @@
+\section*{Item 2}\label{it:2}
+
+\textbf{Enunciado}: para um conversor Boost, considere os seguintes valores: $E = 100$ V; $R_o = 200~\Omega$;$f = 10$ kHz; $L = 1$ mH; $C_o = 47~\mu\mathrm{F}$; $D = 0{,}5$; eficiência de 100\%.
+
+\medskip
+\textbf{a)} Determine se o conversor está operando no MCC ou no MCD.
+
+\medskip
+\textbf{Resolução}: o conversor Boost opera em CCM se~\cite{Eri:20}
+\begin{equation}
+	K = \frac{2L}{RT_s} > K_{crit} = D(1 - D)^2
+\end{equation}
+
+Para os valores propostos no enunciado, tem-se $K = 0{,}1$ e $K_{crit} = 0{,}125$. Portanto, o conversor está operando no DCM. Este modo de operação foi verificado pela corrente no indutor se anular por um breve instante ao final do período $T_s$ em simulação, como pode ser visto na Figura~\ref{fig:ex2_1}.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/ex2.pgf}
+	\caption{(a) tensão de saída e (b) corrente do indutor do circuito Boost.}
+	\label{fig:ex2_1}
+\end{figure}
+
+\medskip
+\textbf{b)} Calcule a tensão média de saída.
+
+\medskip
+\textbf{Resolução}: a tensão média de saída pode ser calculada por~\cite{Eri:20}
+\begin{equation*}
+	\begin{aligned}
+		V_o &= \frac{E}{1-D} \\
+		&= \frac{100}{1-0{,}5} = 200~\mathrm{V}.
+	\end{aligned}
+\end{equation*}
+
+Entretanto, o valor calculado para $V_o$ não corresponde com o obtido na simulação da Figura~\ref{fig:ex2_1}, pois a aproximação de pequeno \textit{ripple} não é adequada pra o modo de operação DCM. Partindo da característica do conversor Boost operando em DCM~\cite{Eri:20}
+\begin{equation*}
+	\frac{V_{o,DCM}}{E} = \frac{1 + \sqrt{1 + \frac{4D^2}{K}}}{2},
+\end{equation*}
+pode-se determinar $V_{o,DCM} = 215{,}83$ V, como observado na simulação da Figura~\ref{fig:ex2_1}.
+
+\medskip
+\textbf{c)} Determine o valor da ondulação da corrente pelo indutor (pico a pico).
+
+\medskip
+\textbf{Resolução}: a ondulação d corrente do indutor pode ser calculada por~\cite{Eri:20}
+\begin{equation*}
+	\begin{aligned}
+		\Delta i_{L,pico} &= 2\Delta i_{L} = \frac{E}{2L}DT_s \\
+		&= \frac{100}{(1\times10^{-3})}0{,}5(1\times 10^{-4}) = 5~\mathrm{A}.
+	\end{aligned}
+\end{equation*}
+
+que corresponde com valor obtido na simulação da Figura~\ref{fig:ex2_1}.
+
+\medskip
+\textbf{d)} Determine o intervalo em que não há corrente no circuito (tx).
+
+\medskip
+\textbf{Resolução}: considerando $D_1 = D$, o período de condução do transistor, $D_2$ o período de condução do diodo e $D_3$ o período que ambos semicondutores não conduzem, tem-se~\cite{Eri:20}
+\begin{equation*}
+	\begin{aligned}
+		D_2 &= D_1\frac{E}{V_{o,DCM} - E} \\
+		&\approx 0{,}4317,
+	\end{aligned}
+\end{equation*}
+e
+\begin{equation*}
+	D_3 = 1 - D_1 - D_2 \approx 0{,}0683.
+\end{equation*}
+
+Portanto, o período em que não há corrente no circuito pode ser determinado por $tx = D_3Ts \approx 0{,}0683(1\times 10^{-4}) \approx 6{,}8338~\mu$s. Ampliando a Figura~\ref{fig:ex2_1} em torno de $0{,}4$ s, é possível verificar o valor de $tx$ calculado na Figura~\ref{fig:ex2_2}.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/ex2_2.pgf}
+	\caption{Período de não condução de corrente do circuito Boost operando em DCM.}
+	\label{fig:ex2_2}
+\end{figure}

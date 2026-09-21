@@ -1,0 +1,25 @@
+\section*{Item 1}\label{it:1}
+
+\textbf{Enunciado}: um conversor buck tem uma tensão de entrada que varia entre $10$ e $15$ V e uma corrente de carga que varia entre $2{,}0$ A e $3{,}5$ A. A tensão de saída é $5$ V. Para uma frequência de comutação de $200$ kHz, determine a indutância mínima necessária para fornecer corrente contínua para todas as possibilidades de operação.
+
+\medskip
+\textbf{Resolução}: partindo da equação que define o limite entre os modos de operação CCM e DCM para um conversor Buck \cite{Eri:20}
+\begin{equation}
+    K = \frac{2L}{RT_s} = 1 - D
+\end{equation}
+
+Para o CCM, tem-se que $K > 1-D$. Portanto, quanto menor o valor de $D$, maior o limitante inferior de K. O pior caso então é obtido com $V_g = 15$, que implica $D = V/V_g = 0{,}333$. Além disso, quanto maior o valor de $R$, maior a tendência do conversor operar no DCM. Então, a pior condição é $R = 5/2 = 2{,}5$. Finalmente, pode-se definir o menor valor de $L$ por
+\begin{equation}\label{eq:ex1_1}
+\begin{aligned}
+    L > \frac{RT_s}{2}(1-D) &= \frac{2{,}5(2\times10^5)}{2}(1-0{,}3) \\
+    &\approx 4{,}1667 \ \mu\mathrm{H}
+\end{aligned}
+\end{equation}
+
+Este valor foi verificado por meio de simulação utilizando o \textit{software} ngspice. A Figura~\ref{fig:ex1} mostra a tensão de saída e a corrente no indutor, que atinge o valor nulo ao final do período de comutação, conforme previsto pela condição~\eqref{eq:ex1_1}. Para este experimento, foi obtido $\Delta i_L = 2$ A e calculado $C = 2{,}5 \ \mu$F para um \textit{ripple} arbitrariamente escolhido como sendo $0{,}5$ V~\cite{codm_ex1}.
+\begin{figure}[htb!]
+    \centering
+    \input{figs/ex1.pgf}
+    \caption{(a) tensão de saída e (b) corrente do indutor do circuito Buck.}
+    \label{fig:ex1}
+\end{figure}
