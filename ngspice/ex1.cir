@@ -46,11 +46,6 @@ run
 plot vout
 plot @l1[i]
 
-* SALVAMENTO DOS DADOS
-set wr_singlescale
-set wr_vecnames
-set filetype=ascii
-wrdata /home/artur-cesar/Documentos/'projeto mestrado'/codigos/ngspice/it333/l1/ex1.csv v(vout) @l1[i]
 .endc
 .end
 
