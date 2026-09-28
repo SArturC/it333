@@ -1,0 +1,136 @@
+\section*{Item 2}\label{it:2}
+
+\textbf{Enunciado}: Um conversor Forward possui os seguintes parâmetros: $V_i = 125$ V, $V_o = 50$ V e $R = 25~\Omega$. A frequência de comutação é de $250$ kHz. Determine:
+
+\medskip
+\textbf{a)} a relação de espiras do transformador $N_1/N_2$ tal que o ciclo de trabalho seja $0,3$;
+
+\medskip
+\textbf{Resolução}: para o conversor Forward operando em modo contínuo, a característica de conversão é dada por~\cite{forward_notas}
+\begin{equation*}
+	\frac{V_o}{V_i}
+	=
+	\frac{N_2}{N_1}D.
+\end{equation*}
+
+Isolando a relação de espiras,
+\begin{equation*}
+	\frac{N_1}{N_2}
+	=
+	\frac{D V_i}{V_o}.
+\end{equation*}
+
+Substituindo os valores fornecidos,
+\begin{equation*}
+	\frac{N_1}{N_2}
+	=
+	\frac{0{,}3\cdot125}{50}
+	=
+	0{,}75.
+\end{equation*}
+
+\medskip
+\textbf{b)} a indutância $L$ (no circuito de saída), de modo que a corrente mínima em $L$ seja $40\%$ da corrente média;
+
+\medskip
+\textbf{Resolução}: inicialmente, calcula-se a corrente média na saída,
+\begin{equation*}
+	I_{L,\mathrm{med}}
+	=
+	\frac{V_o}{R}
+	=
+	\frac{50}{25}
+	=
+	2~\mathrm{A}.
+\end{equation*}
+
+Como a corrente mínima deve ser $40\%$ da corrente média,
+\begin{equation*}
+	I_{L,\min}
+	=
+	0{,}4I_{L,\mathrm{med}}
+	=
+	0{,}8~\mathrm{A}.
+\end{equation*}
+
+A ondulação de corrente no indutor é dada por~\cite{forward_notas}
+\begin{equation*}
+	\Delta i_L
+	=
+	\frac{V_o}{L}(1-D)T_s.
+\end{equation*}
+
+Como
+\begin{equation*}
+	I_{L,\min}
+	=
+	I_{L,\mathrm{med}}
+	-
+	\frac{\Delta i_L}{2},
+\end{equation*}
+obtém-se
+\begin{equation*}
+	0{,}4I_{L,\mathrm{med}}
+	=
+	I_{L,\mathrm{med}}
+	-
+	\frac{V_o(1-D)T_s}{2L}.
+\end{equation*}
+
+Isolando a indutância,
+\begin{equation*}
+	L
+	.
+\end{equation*}
+
+Logo,
+\begin{equation*}
+	\begin{aligned}
+		L
+		&=
+		\frac{V_o(1-D)4\cdot10^{-6}}
+		{2(1-0{,}4)I_{L,\mathrm{med}}}\\
+		&=\frac{50(1-0{,}3)4\cdot10^{-6}}
+		{2(0{,}6)(2)}\\
+		&=
+		58{,}3~\mu\mathrm{H}.
+	\end{aligned}
+\end{equation*}
+
+\medskip
+\textbf{c)} a capacitância necessária para limitar a ondulação (ripple) da tensão de saída a $0{,}5\%$.
+
+\medskip
+\textbf{Resolução}: a ondulação relativa da tensão de saída para um conversor Forward é dada por~\cite{forward_notas}
+\begin{equation*}
+	\frac{\Delta V_o}{V_o}
+	=
+	\frac{1-D}{8LCf_s^2D}.
+\end{equation*}
+
+Deseja-se limitar a ondulação a
+\begin{equation*}
+	\frac{\Delta V_o}{V_o}=0{,}5\%=0{,}005.
+\end{equation*}
+
+Isolando a capacitância,
+\begin{equation*}
+	C
+	=
+	\frac{1-D}
+	{8L f_s^2D
+		\left(\frac{\Delta V_o}{V_o}\right)}.
+\end{equation*}
+
+Substituindo os valores obtidos,
+\begin{equation*}
+	\begin{aligned}
+		C
+		&=
+		\frac{1-0{,}3}
+		{8(58{,}3\cdot10^{-6})
+			(250\cdot10^3)^2(0{,}3)(0{,}005)}
+		\\
+		&\approx4{,}8~\mu\mathrm{F}.
+	\end{aligned}
+\end{equation*}

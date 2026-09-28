@@ -1,0 +1,140 @@
+\section*{Item 1}\label{it:1}
+
+\textbf{Enunciado}: Um conversor Flyback possui os seguintes parâmetros: $V_i = 36$ V, $D = 0,4$, $N_p/N_s = 2$, $R = 20~\Omega$, $L_m = 100~\mu\text{H}$ e $C = 50~\mu\text{F}$. A frequência de comutação é de $100$ kHz. Determine:
+
+\medskip
+\textbf{a)} a tensão de saída;
+
+\medskip
+\textbf{Resolução}: inicialmente, verifica-se o modo de operação do conversor. Para isso, calcula-se a indutância de magnetização mínima necessária para operação em CCM~\cite{flyback_notas}
+\begin{equation*}
+	L_{m,\min}=\frac{R}{2N^2}(1-D)^2T_s,
+\end{equation*}
+em que $N=N_s/N_p=0{,}5$. Logo,
+\begin{equation*}
+	\begin{aligned}
+		L_{m,\min}
+		&=\frac{20}{2(0{,}5)^2}(0{,}6)^21\cdot10^{-5}\\
+		&=225~\mu\mathrm{H}.
+	\end{aligned}
+\end{equation*}
+
+Como o circuito possui $L_m=100~\mu$H, o conversor opera em DCM. Nesta condição, a característica de conversão é dada por
+\begin{equation*}
+	\frac{V_o}{V_i}
+	=
+	D\sqrt{\frac{RT_s}{2L_m}},
+\end{equation*}
+resultando em
+\begin{equation*}
+	\begin{aligned}
+		V_o
+		&=36\cdot0{,}4
+		\sqrt{\frac{20(1\cdot10^{-5})}{2(1\cdot10^{-4})}}\\
+		&\approx14{,}4~\mathrm{V}.
+	\end{aligned}
+\end{equation*}
+
+\medskip
+\textbf{b)} as correntes média, máxima e mínima no indutor;
+
+\medskip
+\textbf{Resolução}: a corrente média na indutância de magnetização é obtida por~\cite{flyback_notas}
+\begin{equation*}
+	\begin{aligned}
+		I_{Lm,\mathrm{med}}
+		&=
+		\frac{V_o^2}{V_iDR},\\
+		&=
+		\frac{14{,}4^2}{36\cdot0{,}4\cdot20}
+		=0{,}72~\mathrm{A}.
+	\end{aligned}
+\end{equation*}
+
+O ripple de corrente na indutância é~\cite{flyback_notas}
+\begin{equation*}
+	\Delta i_{Lm}
+	=
+	\frac{V_iDT_s}{L_m}
+	=
+	\frac{36\cdot0{,}4\cdot1\cdot10^{-5}}
+	{100~\mu\mathrm{H}}
+	=
+	1{,}44~\mathrm{A}.
+\end{equation*}
+
+Assim,~\cite{flyback_notas}
+\begin{equation*}
+	I_{Lm,\max}
+	=
+	I_{Lm,\mathrm{med}}
+	+
+	\frac{\Delta i_{Lm}}{2}
+	=
+	1{,}44~\mathrm{A},
+\end{equation*}
+e
+\begin{equation*}
+	I_{Lm,\min}
+	=
+	I_{Lm,\mathrm{med}}
+	-
+	\frac{\Delta i_{Lm}}{2}
+	=
+	0~\mathrm{A},
+\end{equation*}
+confirmando a operação em modo descontínuo.
+
+\medskip
+\textbf{c)} a ondulação (ripple) da tensão de saída;
+
+\medskip
+\textbf{Resolução}: a ondulação da tensão de saída pode ser estimada por~\cite{flyback_notas}
+\begin{equation*}
+	\Delta V_o
+	=
+	\frac{V_o}{RC}DT_s.
+\end{equation*}
+
+Substituindo os parâmetros do circuito,
+\begin{equation*}
+	\begin{aligned}
+		\Delta V_o
+		&=
+		\frac{14{,}4}
+		{20\cdot5\cdot10^{-5}}
+		0,4\cdot1\cdot10^{-5}\\
+		&\approx57{,}6~\mathrm{mV}.
+	\end{aligned}
+\end{equation*}
+
+\medskip
+\textbf{d)} o valor da carga $R$ no limiar entre o MCC e o MCD.
+
+\medskip
+\textbf{Resolução}: isolando $R$ da condição limite entre CCM e DCM~\cite{flyback_notas}, obtém-se
+\begin{equation}
+	R
+	=
+	\frac{2N^2L_m}
+	{(1-D)^2T_s}.
+\end{equation}
+
+Substituindo os valores do circuito,
+\begin{equation}
+	\begin{aligned}
+		R
+		&=
+		\frac{2(0,5)^2(1\cdot10^{-4})}
+		{(0,6)^2(1\cdot10^{-5})}\\
+		&\approx13{,}89~\Omega.
+	\end{aligned}
+\end{equation}
+
+Como o circuito utiliza $R=20~\Omega$, confirma-se a operação em DCM.
+
+
+
+
+
+

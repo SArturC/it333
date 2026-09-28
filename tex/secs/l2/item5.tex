@@ -1,0 +1,202 @@
+\section*{Item 5}\label{it:5}
+
+\textbf{Enunciado}: Calcule os seguintes parâmetros: $L_4$, $L_1$, $L_2$, $C_1$ e $D$ para o conversor Forward abaixo. Simule o circuito e verifique se os resultados são consistentes com a expectativa. Justifique eventuais discrepâncias.
+
+\begin{itemize}
+	\item O circuito opera no modo de condução contínua.
+	\item Tensão de saída de $12$ V.
+	\item Ripple da corrente de saída (em $L_5$) igual a $4$ A (pico a pico).
+	\item Ripple da tensão de saída de $1\%$.
+	\item Relação de espiras entre $L_1$ e $L_2$: $N_1 = 10\,N_2$.
+	\item $L_3$ deve ser tal que garanta a desmagnetização total do núcleo durante a condução de $D_3$.
+	\item A frequência de chaveamento é de $20$ kHz.
+	\item $L_2 = 10~\mu\text{H}$.
+	\item Utilize o transistor R6020PNJ.
+	\item Para evitar problemas de convergência na simulação, utilize o resistor $R_3$ de $10~\text{M}\Omega$, mostrado na figura abaixo, bem como a configuração ``skip initial operating point solution'' (\texttt{uic}) no comando \texttt{.tran}.
+\end{itemize}
+
+\textbf{Resolução}: inicialmente, calcula-se o ciclo de trabalho a partir da característica de conversão do conversor Forward operando em modo de condução contínua~\cite{forward_notas}
+\begin{equation*}
+	\frac{V_o}{V_i}
+	=
+	\frac{N_2}{N_1}D.
+\end{equation*}
+
+Como $N_2/N_1=0{,}1$, obtém-se
+\begin{equation*}
+	D
+	=
+	\frac{V_o}{V_i(N_2/N_1)}
+	=
+	\frac{12}{300\cdot0{,}1}
+	=
+	0{,}4.
+\end{equation*}
+
+A indutância de saída $L_4$ é obtida a partir da expressão da ondulação de corrente
+\begin{equation*}
+	\Delta i_{L_4}
+	=
+	\frac{V_o}{L_4}(1-D)T_s.
+\end{equation*}
+
+Isolando $L_4$,
+\begin{equation*}
+	L_4
+	=
+	\frac{V_o(1-D)T_s}
+	{\Delta i_{L_4}}.
+\end{equation*}
+
+Substituindo os valores especificados,
+\begin{equation*}
+	\begin{aligned}
+		L_4
+		&=
+		\frac{12(1-0{,}4)(50\cdot10^{-6})}
+		{4}
+		\\
+		&=
+		90~\mu\mathrm{H}.
+	\end{aligned}
+\end{equation*}
+
+A capacitância do filtro de saída é calculada a partir da expressão da ondulação relativa da tensão
+\begin{equation*}
+	\frac{\Delta V_o}{V_o}
+	=
+	\frac{1-D}
+	{8L_4Cf_s^2}.
+\end{equation*}
+
+Como se deseja limitar o ripple da tensão de saída a $1\%$,
+\begin{equation*}
+	\frac{\Delta V_o}{V_o}
+	=
+	0{,}01.
+\end{equation*}
+
+Isolando a capacitância,
+\begin{equation*}
+	C
+	=
+	\frac{1-D}
+	{8L_4f_s^2
+		\left(\frac{\Delta V_o}{V_o}\right)}.
+\end{equation*}
+
+Substituindo os valores,
+\begin{equation*}
+	\begin{aligned}
+		C
+		&=
+		\frac{1-0{,}4}
+		{8(90\cdot10^{-6})
+			(20\cdot10^3)^2
+			(0{,}01)}
+		\\
+		&\approx
+		208~\mu\mathrm{F}.
+	\end{aligned}
+\end{equation*}
+
+A relação entre as indutâncias dos enrolamentos do transformador é dada por
+\begin{equation*}
+	\frac{L_1}{L_2}
+	=
+	\left(\frac{N_1}{N_2}\right)^2.
+\end{equation*}
+
+Como $N_1/N_2=10$ e $L_2=10~\mu\mathrm{H}$,
+\begin{equation*}
+	\begin{aligned}
+		L_1
+		&=
+		L_2
+		\left(\frac{N_1}{N_2}\right)^2
+		\\
+		&=
+		10~\mu\mathrm{H}\times10^2
+		\\
+		&=1~\mathrm{mH}.
+	\end{aligned}
+\end{equation*}
+
+Por fim, o enrolamento de desmagnetização deve garantir a completa remoção do fluxo armazenado durante o intervalo de condução de $D_3$. O valor máximo da indutância é dado por~\cite{forward_notas}
+\begin{equation*}
+	L_{3,\max}
+	=
+	L_1
+	\left(\frac{1}{D}-1\right)^2.
+\end{equation*}
+
+Substituindo os valores obtidos,
+\begin{equation*}
+	\begin{aligned}
+		L_{3,\max}
+		&=
+		1~\mathrm{mH}
+		\left(\frac{1}{0{,}4}-1\right)^2
+		\\
+		&=2{,}25~\mathrm{mH}.
+	\end{aligned}
+\end{equation*}
+
+Foi adotado um fator de segurança de $20\%$, resultando em
+\begin{equation*}
+	\begin{aligned}
+		L_3
+		&=
+		0{,}8L_{3,\max}
+		\\
+		&=
+		1{,}8~\mathrm{mH}.
+	\end{aligned}
+\end{equation*}
+
+A carga limite para operação em modo de condução contínua é dada por
+\begin{equation*}
+	R_{\max}
+	=
+	\frac{2L_4}
+	{(1-D)T_s},
+\end{equation*}
+resultando em
+\begin{equation*}
+	R_{\max}
+	=
+	\frac{2(90~\mu\mathrm{H})}
+	{(1-0{,}4)(50~\mu\mathrm{s})}
+	=
+	6~\Omega.
+\end{equation*}
+
+Para garantir a operação em modo contínuo, adotou-se
+\begin{equation*}
+	R
+	=
+	0{,}8R_{\max}
+	=
+	4{,}8~\Omega.
+\end{equation*}
+
+Assim, a corrente média na carga é
+\begin{equation*}
+	I_o
+	=
+	\frac{V_o}{R}
+	=
+	\frac{12}{4{,}8}
+	=
+	2{,}5~\mathrm{A}.
+\end{equation*}
+
+A Figura~\ref{fig:ex5} apresenta, respectivamente, a tensão de saída, a corrente no indutor de saída e a tensão dreno--source do transistor, verificando que o conversor opera em CCM.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/l2/ex5.pgf}
+	\caption{(a) tensão de saída, (b) corrente no indutor de saída e (c) tensão de saídatensão dreno--source do transistor do circuito Forward.}
+	\label{fig:ex5}
+\end{figure}
+
+Pode-se observar que a tesão de saída apresentou $\approx -220$ mV de diferença para o valor de $12$ V especificado no enunciado. Além disso, ao final da simulação, ainda persiste uma oscilação associada ao transitório de ligamento do conversor. Apesar disso, é possível verificar que o \textit{ripple} de saída é $\approx 1$\%. Ademais, com o auxílio de ferramentas de análise do \textit{software} ngspice, verificou-se que a corrente no indutor de saída possui média $ \approx 2{,}4$ A e não toca o zero, portanto o conversor opera no CCM. Por fim, observou-se que $\Delta i_L \approx 3.96$ A, atendendo as especificação do enunciado.

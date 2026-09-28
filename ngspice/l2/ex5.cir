@@ -1,0 +1,90 @@
+Conversor Flayback source ex5.cir
+*
+* Implementação do conversor Forward
+* Nível 1: transistor como chave e componentes ideias
+* Erickson, seção 6.3.2
+*
+* *****************************************
+
+* DESCRIÇÃO DO CIRCUITO
+* variáveis do circuito
+.param vg    = 3.0e2      ; fonte de entrada
+.param apwm  = 1.0e1      ; fonte de entrada
+.param fsw   = 2.0e4      ; frequência do sinal da fonte
+.param per   = {1/fsw}    ; período do sinal da fonte
+.param dut   = 0.4        ; ciclo de trabalho
+.param k123  = 1          ; coeficiente de acomplamento
+.param l1    = 1.00e-3    ; indutância de magnetização do primário
+.param l2    = 1.00e-5    ; indutância do secundário
+.param l3    = 1.80e-3    ; indutância de desmagnetização do primário
+.param l4    = 9.00e-5    ; indutância de saída
+.param c     = 2.08e-4    ; capacitância de saída
+.param rpwm  = 1.00e1     ; resistência de gate
+.param rl    = 4.80e0     ; resistência de carga
+
+* definição dos componentes
+* pwm source
+Vpwm  n01  GND  PULSE(0 {apwm} 0 1e-9 1e-9 {dut*per} {per})
+Rpwm  n01  pwm  {rpwm}
+
+* primário
+Vg  p01  GND  DC    {vg}
+L1  p01  p02  {l1}  IC=0
+M1  p02  pwm  GND   GND   R6020PNJ
+L3  p03  p01  {l3}  IC=0
+D1  GND  p03  Dideal
+
+* secundário
+* DÚVIDA: porque este circuito funciona com o resistor
+*         de referência, mas o flayback não?
+L2  s02   ref2  {l2}  IC=0
+D2  s02   s03   Dideal
+D3  ref2  s03   Dideal
+L4  s03   sout  {l4}  IC=0
+C1  sout  ref2  {c}   IC=0
+Rl  sout  ref2  {rl}
+
+* resistência de referência do secundário
+Rref  ref2  GND  1.0e3
+
+* acoplamento das indutâncias
+K12 L1 L2 {k123}
+K13 L1 L3 {k123}
+K23 L2 L3 {k123}
+
+* definição dos modelos
+.model R6020PNJ VDMOS( Rg=19.5    Vto=4.486   Rd=170.2m
++                      Rs=15m     Rb=15m      Kp=39.78
++                      Lambda=50m Cgdmin=13p  Cgdmax=3.5n
++                      A=1.2      CGS = 2n    Is=581.06p
++                      N=1.245    Cjo=6.7667n M=900.62m
++                      Vj=2.19    TT=680n     ksubthres=.1
++                      mfg=Rohm   Vds=600     Ron=190m
++                      Qg=65n )
+.model Dideal D( RS=1.0e-6 IS=1.0e-6 N=1
++                TT=0 CJO=0 )
+
+* COMANDOS DA SIMULAÇÃO
+.options savecurrents TEMP = 27
+
+* PARÂMETROS DA SIMULAÇÃO
+.IC 
+.tran {per/100} {150*per} uic
+
+.control ;
+run
+plot sout
+plot @l1[i]
+plot @l2[i]
+plot @l3[i]
+plot @l4[i]
+plot p02
+
+* SALVAMENTO DOS DADOS
+set wr_singlescale
+set wr_vecnames
+set filetype=ascii
+wrdata ex5.csv v(sout) @l1[i]  @l2[i] @l3[i] @l4[i] v(p02)
+.endc
+.end
+

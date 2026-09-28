@@ -1,0 +1,57 @@
+\section*{Item 4}\label{it:4}
+
+\textbf{Enunciado}: Simule, no LTspice, o circuito do conversor Flyback projetado no Exercício~1, utilizando o transistor IRFH5007. Acione o transistor com uma tensão de gate entre $0$ e $10$ V, bem como um resistor de gate de $10~\Omega$.
+
+\medskip
+\textbf{a)} Apresente as formas de onda da corrente no dreno do transistor, da tensão dreno--source do transistor e da tensão de saída para $K~L1~L2~1$ no LTspice.
+
+\medskip
+\textbf{Resolução}:
+a Figura~\ref{fig:ex4_1} apresenta as formas de onda solicitadas no enunciado.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/l2/ex4_1.pgf}
+	\caption{(a) corrente no dreno do transistor, (b) tensão dreno--source do transistor e (c) tensão de saída do circuito Flyback para $K~L1~L2~1$ .}
+	\label{fig:ex4_1}
+\end{figure}
+
+\medskip
+\textbf{b)} Altere o acoplamento para $K~L1~L2~0.99$ e apresente as mesmas formas de onda.
+
+\medskip
+\textbf{Resolução}:
+A Figura~\ref{fig:ex4_2} apresenta as formas de onda solicitadas no enunciado. Pode-se observar o surgimento de oscilação na tensão $V_{DS}$.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/l2/ex4_2.pgf}
+	\caption{(a) corrente no dreno do transistor, (b) tensão dreno--source do transistor e (c) tensão de saída do circuito Flyback para $K~L1~L2~0.99$ .}
+	\label{fig:ex4_2}
+\end{figure}
+
+\medskip
+\textbf{c)} Projete o circuito \textit{clamper} RCD, conforme apresentado em aula, para o circuito e apresente as novas formas de onda.
+
+\medskip
+\textbf{Resolução}: a tensão $V_{DS}$ máxima, assim como a corrente de pico máxima, foram obtidos por inspeção dos gráficos gerados em simulação, com o auxílio de ferramentas de ampliação. Os valores obtidos para o circuito \textit{clamper} RCD foram~\cite{aula6_isolados}: $R_{clamp} = 2{,}6~\text{k}\Omega$, $C_{clamp} = 19{,}2$ nF, que resulta em uma perda $P_{loss,clamper} = 0{,}8352$ W.
+
+A Figura~\ref{fig:ex4_3} apresenta as formas de onda solicitadas no enunciado. Pode-se observar a diminuição da amplitude da oscilação na tensão $V_{DS}$.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/l2/ex4_3.pgf}
+	\caption{(a) corrente no dreno do transistor, (b) tensão dreno--source do transistor e (c) tensão de saída do circuito Flyback para $K~L1~L2~0.99$ e circuito \textit{clamper} RCD.}
+	\label{fig:ex4_3}
+\end{figure}
+
+\medskip
+\textbf{d)} Projete agora o circuito de \textit{snubber} e apresente novamente as formas de onda atualizadas.
+
+\medskip
+\textbf{Resolução}: para o projeto do circuito \textit{snubber}, considerou-se que a capacitância equivalente vista pelo dreno do MOSFET é aproximadamente igual a capacitância de saída do MOSFET $C_{oss}$. Para uma tensão $V_{DS} = 65$ V, a folha de dados do fabricante fornece $C_{oss} \approx 310$ pF~\cite{irfh5007_datasheet}.  Os valores obtidos para o circuito \textit{snubber} foram~\cite{aula6_isolados}: $R_{snb} = 80{,}1~\Omega$, $C_{snb} = 994{,}5$ pF, considerando uma perda $P_{loss,snb} = 0.5P_{loss,clamper} = 0{,}4176$ W.
+
+A Figura~\ref{fig:ex4_4} apresenta as formas de onda solicitadas no enunciado. Pode-se observar a diminuição da amplitude da oscilação na tensão $V_{DS}$. Além disso, também é observada a redução da tensão de saída. como consequência das perdas $P_{loss,snb}$ e $P_{loss,clamper}$.
+\begin{figure}[htb!]
+	\centering
+	\input{figs/l2/ex4_4.pgf}
+	\caption{(a) corrente no dreno do transistor, (b) tensão dreno--source do transistor e (c) tensão de saída do circuito Flyback para $K~L1~L2~0.99$, circuito \textit{clamper} RCD e circuito \textit{snubber}.}
+	\label{fig:ex4_4}
+\end{figure}
